@@ -1,0 +1,30 @@
+
+ //connection URL
+ const url = 'mongodb://localhost:27017';
+ //Database Name
+ const dbName = 'TodoApp';
+
+ //use connect method to connect to server
+ MongoClient.connect(url, function(err, client) {
+     if (err) {
+         console.log('Sorry unable to connect');
+     }
+     console.log('Sucsess to connect');
+     const db = client.db(dbName);
+     const insertDocs = function(db, callback) {
+         //get the Docs collection
+         const collection = db.collection('Todos');
+         //insert some docs
+         collection.insertOne({
+             text: 'Ahmed Rashaaaaaaaaad',
+             completed: false
+         }, function(err, result) {
+             if (err) {
+                 console.log('unable to insert');
+             }
+             console.log(JSON.stringify(result.ops, undefined, 2), 'Inserted sucsessed');
+             callback(result)
+         })
+     }
+     client.close();
+ })
